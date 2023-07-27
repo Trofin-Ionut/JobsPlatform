@@ -5,9 +5,12 @@ namespace JobsPlatform.Models
     public class Admin : User
     {
         public int? UserID { get; set; }
-        public Admin(string? name, int? id,int? identifier,int?userID) : base(name, identifier,id)
+        public new string? Password { get; set; }
+
+        public Admin(string? name, int? id,int? identifier,int?userID,string?password) : base(name, identifier,id,password)
         {
-            UserID= userID; 
+            UserID= userID;
+            Password= password;
         }
     }
 }

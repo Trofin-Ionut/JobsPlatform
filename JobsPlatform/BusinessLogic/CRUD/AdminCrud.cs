@@ -10,7 +10,7 @@ namespace JobsPlatform.BusinessLogic.CRUD
         public static async Task CreateAdminTable()
         {
             await Database.conn.OpenAsync();
-            query = "CREATE TABLE IF NOT EXISTS ADMINS (id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(30) NOT NULL,identifier INTEGER NOT NULL,userID INTEGER NOT NULL,FOREIGN KEY (userID) REFERENCES USER(id) ON DELETE CASCADE)";
+            query = "CREATE TABLE IF NOT EXISTS ADMINS (id INTEGER PRIMARY KEY AUTOINCREMENT,_password VARCHAR(30),name VARCHAR(30) NOT NULL,identifier INTEGER NOT NULL,userID INTEGER NOT NULL,FOREIGN KEY (userID) REFERENCES USER(id) ON DELETE CASCADE)";
             SqliteCommand cmd = new SqliteCommand(query, Database.conn);
             await cmd.ExecuteNonQueryAsync();
             await Database.conn.CloseAsync();
@@ -28,15 +28,16 @@ namespace JobsPlatform.BusinessLogic.CRUD
                     string? name = Convert.ToString(reader["name"]);
                     int? identifier = Convert.ToInt32(reader["identifier"]);
                     int? uID= Convert.ToInt32(reader["userID"]);
-                    Database.everything.Add(new Admin(name, id, identifier,uID));
+                    string? password = Convert.ToString(reader["_password"]);
+                    Database.everything.Add(new Admin(name, id, identifier,uID, password));
                 }
             }
             await Database.conn.CloseAsync();
         }
-        public static async Task UpdateAdminTable(string? name,int?userID,int?adminID)
+        public static async Task UpdateAdminTable(string? name,int?userID,int?adminID, string? password)
         {
             await Database.conn.OpenAsync();
-            query = $"UPDATE ADMINS SET name='{name}', userID='{userID}' WHERE id='{adminID}'";
+            query = $"UPDATE ADMINS SET name='{name}', userID='{userID}',_password={password} WHERE id='{adminID}'";
             SqliteCommand cmd = new SqliteCommand(query,Database.conn);
             await cmd.ExecuteNonQueryAsync();
             await Database.conn.CloseAsync();
@@ -49,9 +50,9 @@ namespace JobsPlatform.BusinessLogic.CRUD
             await cmd.ExecuteNonQueryAsync();
             await Database.conn.CloseAsync();
         }
-        public static async Task InsertAdmin(string? name, int? identifier, int? userID)
+        public static async Task InsertAdmin(string? name, int? identifier, int? userID, string? password)
         {
-            string query = $"INSERT INTO ADMINS(name,identifier,userID) VALUES ('{name}','{identifier}','{userID}')";
+            string query = $"INSERT INTO ADMINS(name,identifier,userID,_password) VALUES ('{name}','{identifier}','{userID}','{password}')";
             await Database.conn.OpenAsync();
             SqliteCommand cmd = new SqliteCommand(query, Database.conn);
             await cmd.ExecuteNonQueryAsync();

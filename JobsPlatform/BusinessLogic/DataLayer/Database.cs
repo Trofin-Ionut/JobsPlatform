@@ -66,15 +66,15 @@ namespace JobsPlatform.BusinessLogic.DataLayer
             {
                 case (int)Role.ADMIN:
                     Admin admin = (Admin)person;
-                    await AdminCrud.UpdateAdminTable(admin.Name, admin.UserID, admin.Id);
+                    await AdminCrud.UpdateAdminTable(admin.Name, admin.UserID, admin.Id,admin.Password);
                     break;
                 case (int)Role.EMPLOYEER:
                     Employeer employee = (Employeer)person;
-                    await EmployeerCrud.UpdateEmployeerTable(employee.Name, employee.UserID, employee.Id);
+                    await EmployeerCrud.UpdateEmployeerTable(employee.Name, employee.UserID, employee.Id, employee.Password);
                     break;
                 case (int)Role.USER:
                     User user = (User)person;
-                    await UserCrud.UpdateUserTable(user.Name, user.Id);
+                    await UserCrud.UpdateUserTable(user.Name,user.Password, user.Id);
                     break;
                 case (int)Role.JOB:
                     Job job = (Job)person;
@@ -137,15 +137,15 @@ namespace JobsPlatform.BusinessLogic.DataLayer
             {
                 case (int?)Role.ADMIN:
                     Admin admin = (Admin)person;
-                    await AdminCrud.InsertAdmin(admin.Name, admin.Identifier, admin.UserID);
+                    await AdminCrud.InsertAdmin(admin.Name, admin.Identifier, admin.UserID, admin.Password);
                     break;
                 case (int?)Role.EMPLOYEER:
                     Employeer employee = (Employeer)person;
-                    await EmployeerCrud.InsertEmployeer(employee.Name, employee.Identifier, employee.UserID);
+                    await EmployeerCrud.InsertEmployeer(employee.Name, employee.Identifier, employee.UserID, employee.Password);
                     break;
                 case (int?)Role.USER:
                     User user = (User)person;
-                    await UserCrud.InsertUser(user.Name, user.Identifier);
+                    await UserCrud.InsertUser(user.Name, user.Identifier, user.Password);
                     break;
                 case (int?)Role.JOB:
                     Job job = (Job)person;
