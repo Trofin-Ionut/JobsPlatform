@@ -2,7 +2,7 @@
 
 namespace JobsPlatform.Models
 {
-    public  class User:IStuff
+    public  class User:SealedStuff
     {
         public string? Name { get; set; }
         public int? Id { get; set; }

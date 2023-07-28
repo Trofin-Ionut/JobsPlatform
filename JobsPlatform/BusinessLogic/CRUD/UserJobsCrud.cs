@@ -11,7 +11,7 @@ namespace JobsPlatform.BusinessLogic.CRUD
         public static async Task CreateUserJobsTable()
         {
             await Database.conn.OpenAsync();
-            query = "CREATE TABLE IF NOT EXISTS USER_JOBS (id INTEGER PRIMARY KEY AUTOINCREMENT,userID INTEGER NOT NULL,identifier INTEGER NOT NULL,jobID INTEGER NOT NULL,FOREIGN KEY (userID) REFERENCES USER(id) ON DELETE CASCADE,FOREIGN KEY (jobID) REFERENCES JOB(id) ON DELETE CASCADE)";
+            query = "CREATE TABLE IF NOT EXISTS USER_JOBS (id INTEGER PRIMARY KEY AUTO_INCREMENT,userID INTEGER NOT NULL,identifier INTEGER NOT NULL,jobID INTEGER NOT NULL,FOREIGN KEY (userID) REFERENCES USER(id) ON DELETE CASCADE,FOREIGN KEY (jobID) REFERENCES JOB(id) ON DELETE CASCADE)";
             SqliteCommand cmd = new SqliteCommand(query, Database.conn);
             await cmd.ExecuteNonQueryAsync();
             await Database.conn.CloseAsync();

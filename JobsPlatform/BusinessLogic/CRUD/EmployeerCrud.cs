@@ -10,7 +10,7 @@ namespace JobsPlatform.BusinessLogic.CRUD
         public static async Task CreateEmployeerTable()
         {
             await Database.conn.OpenAsync();   
-            query = "CREATE TABLE IF NOT EXISTS EMPLOYEER (id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(30) NOT NULL,identifier INTEGER NOT NULL,_password VARCHAR(30), userID INTEGER NOT NULL ,FOREIGN KEY (userID) REFERENCES USER(id) ON DELETE CASCADE)";
+            query = "CREATE TABLE IF NOT EXISTS EMPLOYEER (id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(30) NOT NULL,identifier INTEGER NOT NULL,_password VARCHAR(30),company VARCHAR(30) NOT NULL, userID INTEGER NOT NULL ,FOREIGN KEY (userID) REFERENCES USER(id) ON DELETE CASCADE)";
             SqliteCommand cmd = new SqliteCommand(query, Database.conn);
             await cmd.ExecuteNonQueryAsync();
             await Database.conn.CloseAsync();
@@ -29,6 +29,7 @@ namespace JobsPlatform.BusinessLogic.CRUD
                     int? identifier = Convert.ToInt32(reader["identifier"]);
                     int? uID = Convert.ToInt32(reader["userID"]);
                     string? password = Convert.ToString(reader["_password"]);
+                    string? company = Convert.ToString(reader["company"]);
                     Database.everything.Add(new Employeer(name, id, identifier, uID,password));
                 }
             }

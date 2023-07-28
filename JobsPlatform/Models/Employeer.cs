@@ -6,6 +6,7 @@ namespace JobsPlatform.Models
     {
         public int? UserID { get; set; }
         public new string? Password { get; set; }
+        
         public Employeer ( string?Name,  int? id,  int?identifier,int? userID,string? password):base( Name, identifier, id,password)
         {
             UserID = userID;

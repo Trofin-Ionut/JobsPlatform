@@ -2,11 +2,11 @@
 
 namespace JobsPlatform.Models
 {
-    public class Benefit : IStuff
+    public class Benefit : SealedStuff
     {
-        public int? Id { get; set; }
-        public int? Identifier { get; set; }
-        public string? Name { get; set; }
+        public new int? Id { get; set; }
+        public new int? Identifier { get; set; }
+        public new string? Name { get; set; }
 
         public Benefit(int? id,int? identifier,string? name) 
         {
