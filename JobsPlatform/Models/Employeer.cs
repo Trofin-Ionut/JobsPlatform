@@ -1,16 +1,15 @@
-﻿using JobsPlatform.Interfaces;
-
+﻿
 namespace JobsPlatform.Models
 {
-    public class Employeer:User
+    public class Employeer : User
     {
         public int? UserID { get; set; }
-        public new string? Password { get; set; }
-        
-        public Employeer ( string?Name,  int? id,  int?identifier,int? userID,string? password):base( Name, identifier, id,password)
+        public string? Company { get; set; }
+
+        public Employeer(string? Name, int? id, int? userID, string? password, string? company) : base(Name, id, password)
         {
             UserID = userID;
-            Password = password;
+            Company = company;
         }
     }
 }

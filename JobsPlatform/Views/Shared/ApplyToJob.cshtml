@@ -1,0 +1,47 @@
+﻿@{
+    List<UserJobs> founds = Database.userJobs.Where(uj => uj.UserID == HomeController._model.userID).ToList();
+    List<Job> jobs = new();
+    @if (!string.IsNullOrEmpty(HomeController._model.jobName))
+    {
+        jobs = Database.jobs.Where(j => j.Name.Contains(HomeController._model.jobName)).ToList();
+    }
+    else
+    {
+        jobs = Database.jobs;
+    }
+
+}
+
+@foreach (Job job in jobs)
+{
+    <form class="needs-validation" method="post" action="~/Forum/Apply">
+        <input type="hidden" name="jobID" value="@job.Id" />
+        <tr>
+
+            <td value="@job.Id" name="jobID">@job.Id</td>
+            <td>@job.Name</td>
+            <td>@job.Industry</td>
+            <td>@job.MinSalary</td>
+            <td>@job.MaxSalary</td>
+            @{
+                string allBenefits = "";
+                List<JobBenefits> ids = Database.jobBenefits.Where(jobBen => jobBen.JobID == job.Id).ToList();
+                foreach (JobBenefits jobBen in ids)
+                {
+                    allBenefits += (Database.benefits[jobBen.BenefitID.Value - 1].Name + "\n");
+                }
+                <td>@allBenefits</td>
+                string date = job.Created.Value.ToString("dd/MM/yyyy");
+            };
+            <td>@date</td>
+            {
+            <td>
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-info" @(HomeController._model.Role > 4 ? (founds.Select(uj => uj.JobID == job.Id).FirstOrDefault() ? "disabled" : "") : "disabled")>Apply Job</button>
+                </div>
+            </td>
+            }
+        </tr>
+    </form>
+}
+

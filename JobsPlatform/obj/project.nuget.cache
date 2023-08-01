@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ENI/IefYCG1XfHKDRtqyOguG4tlqawjAYArtfEdPqwTODDPLG9Ck7vqQuuSl0F2DXaGOEN3dsCEgLuA76EvQcg==",
+  "dgSpecHash": "kf+oicYtW+xt9Ah+H85aRVBCoDD+lrZz3Dazr4F2gyMiBbWxJC623aypD6JbnCwDjtsyCl6nDcOdjpwwFh+7bg==",
   "success": true,
-  "projectFilePath": "D:\\C#\\JobsPlatform\\JobsPlatform\\JobsPlatform.csproj",
+  "projectFilePath": "C:\\Users\\trofing\\Desktop\\C#\\JobsPlatform\\JobsPlatform\\JobsPlatform.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\trofing\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.9\\microsoft.data.sqlite.core.7.0.9.nupkg.sha512",
     "C:\\Users\\trofing\\.nuget\\packages\\sqlite\\3.13.0\\sqlite.3.13.0.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\C#\\JobsPlatform\\JobsPlatform\\JobsPlatform.csproj": {}
+    "C:\\Users\\trofing\\Desktop\\C#\\JobsPlatform\\JobsPlatform\\JobsPlatform.csproj": {}
   },
   "projects": {
-    "D:\\C#\\JobsPlatform\\JobsPlatform\\JobsPlatform.csproj": {
+    "C:\\Users\\trofing\\Desktop\\C#\\JobsPlatform\\JobsPlatform\\JobsPlatform.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\C#\\JobsPlatform\\JobsPlatform\\JobsPlatform.csproj",
+        "projectUniqueName": "C:\\Users\\trofing\\Desktop\\C#\\JobsPlatform\\JobsPlatform\\JobsPlatform.csproj",
         "projectName": "JobsPlatform",
-        "projectPath": "D:\\C#\\JobsPlatform\\JobsPlatform\\JobsPlatform.csproj",
+        "projectPath": "C:\\Users\\trofing\\Desktop\\C#\\JobsPlatform\\JobsPlatform\\JobsPlatform.csproj",
         "packagesPath": "C:\\Users\\trofing\\.nuget\\packages\\",
-        "outputPath": "D:\\C#\\JobsPlatform\\JobsPlatform\\obj\\",
+        "outputPath": "C:\\Users\\trofing\\Desktop\\C#\\JobsPlatform\\JobsPlatform\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,0 +1,30 @@
+﻿@using JobsPlatform.Models;
+@using JobsPlatform.BusinessLogic.DataLayer;
+
+<div class="table-responsive">
+    <table class="table table-bordered table-dark table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Job Name</th>
+                <th>Industry></th>
+                <th>Minimum Salary</th>
+                <th>Maximum Salary</th>
+                <th>Benefits</th>
+                <th>Created</th>
+                <th>Decide</th>
+            </tr>
+        </thead>
+        <tbody>
+                @if (Model.Role == 7)
+                {  
+                    await Html.RenderPartialAsync("DeleteJob", Model);
+                
+                }
+                else
+                {
+                    await Html.RenderPartialAsync("ApplyToJob", Model);
+                }
+        </tbody>
+    </table>
+</div>

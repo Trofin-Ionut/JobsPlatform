@@ -1,0 +1,46 @@
+﻿@foreach (Job job in Database.jobs)
+{
+
+    <form class="needs-validation" method="post" action="~/Admin/DeleteJob">
+        <input type="hidden" name="jobID" value="@job.Id" />
+        <tr>
+
+            <td value="@job.Id" name="jobID">@job.Id</td>
+            <td>@job.Name</td>
+            <td>@job.Industry</td>
+            <td>@job.MinSalary</td>
+            <td>@job.MaxSalary</td>
+            @{
+                string allBenefits = "";
+                List<JobBenefits> ids = Database.jobBenefits.Where(jobBen => jobBen.JobID == job.Id).ToList();
+                foreach (JobBenefits jobBen in ids)
+                {
+                    allBenefits += (Database.benefits[jobBen.BenefitID.Value - 1].Name + "\n");
+                }
+                <td>@allBenefits</td>
+                string date = job.Created.Value.ToString("dd/MM/yyyy");
+            };
+            <td>@date</td>
+            @{
+                if (@Model.Role == 7)
+                {
+                    <td>
+                        <div class="d-flex">
+                            <button type="submit" class="btn btn-danger">Delete Job </button>
+                        </div>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <div class="d-flex">
+                            <button type="submit" class="btn btn-info">Apply Job </button>
+                        </div>
+                    </td>
+                }
+            }
+
+        </tr>
+
+    </form>
+}

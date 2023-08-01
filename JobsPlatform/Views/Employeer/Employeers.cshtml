@@ -1,0 +1,22 @@
+﻿
+<div class="table-responsive">
+    <table class="table table-bordered table-dark table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Employeer Name</th>
+                <th>Company</th>
+        </thead>
+        <tbody>
+            @foreach (Employeer employeer in Database.employeers)
+            {
+                <tr>
+                    <td>@employeer.Id</td>
+                    <td>@employeer.Name</td>
+                    <td>@employeer.Company</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}

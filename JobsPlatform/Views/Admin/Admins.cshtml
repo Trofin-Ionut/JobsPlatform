@@ -1,0 +1,20 @@
+﻿
+<div class="table-responsive">
+    <table class="table table-bordered table-dark table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Admin Name</th>
+        </thead>
+        <tbody>
+            @foreach (Admin admin in Database.admins)
+            {
+                <tr>
+                    <td >@admin.Id</td>
+                    <td>@admin.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}

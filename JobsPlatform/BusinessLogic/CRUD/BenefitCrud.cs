@@ -10,7 +10,7 @@ namespace JobsPlatform.BusinessLogic.CRUD
         public static async Task CreateBenefitTable()
         {
             await Database.conn.OpenAsync();
-            query = "CREATE TABLE IF NOT EXISTS BENEFIT (id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(30) NOT NULL,identifier INTEGER NOT NULL)";
+            query = "CREATE TABLE IF NOT EXISTS BENEFIT (id INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR(30) NOT NULL)";
             SqliteCommand cmd = new SqliteCommand(query, Database.conn);
             await cmd.ExecuteNonQueryAsync();
             await Database.conn.CloseAsync();
@@ -25,9 +25,8 @@ namespace JobsPlatform.BusinessLogic.CRUD
                 while (reader.Read())
                 {
                     int? id = Convert.ToInt32(reader["id"]);
-                    int? identifier = Convert.ToInt32(reader["identifier"]);
                     string? name = Convert.ToString(reader["name"]);
-                    Database.everything.Add(new Benefit(id, identifier,name));
+                    Database.benefits.Add(new Benefit(id, name));
                 }
             }
             await Database.conn.CloseAsync();
@@ -48,9 +47,9 @@ namespace JobsPlatform.BusinessLogic.CRUD
             await cmd.ExecuteNonQueryAsync();
             await Database.conn.CloseAsync();
         }
-        public static async Task InsertBenefit(string? name, int? identifier)
+        public static async Task InsertBenefit(string? name)
         {
-            string query = $"INSERT INTO BENEFIT(name,identifier) VALUES ('{name}','{identifier}')";
+            string query = $"INSERT INTO BENEFIT(name) VALUES ('{name}')";
             await Database.conn.OpenAsync();
             SqliteCommand cmd = new SqliteCommand(query, Database.conn);
             await cmd.ExecuteNonQueryAsync();

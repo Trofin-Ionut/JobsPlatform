@@ -1,14 +1,9 @@
-﻿@using JobsPlatform.Models;
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<div class="card">
+﻿<div class="card">
     <div class="card-img-fluid">
         <img class="card-img-top" alt="img" src="https://mdbootstrap.com/img/Photos/Others/images/76.jpg" style="width:100%" />
         <div class="card-img-overlay">
             <div class="card-body">
-                <h2 class="card-title text-center p-5">Welcome to Jobs Platform</h2>
-
+                <h2 class="card-title text-center p-5">Forum</h2>
                 @{
                     await Html.RenderPartialAsync("Forum",Model);
                 }

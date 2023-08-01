@@ -1,17 +1,14 @@
-﻿using JobsPlatform.Interfaces;
-
+﻿
 namespace JobsPlatform.Models
 {
-    public class Benefit : SealedStuff
+    public class Benefit
     {
-        public new int? Id { get; set; }
-        public new int? Identifier { get; set; }
-        public new string? Name { get; set; }
+        public int? Id { get; set; }
+        public string? Name { get; set; }
 
-        public Benefit(int? id,int? identifier,string? name) 
+        public Benefit(int? id, string? name)
         {
             Id = id;
-            Identifier = identifier;
             Name = name;
         }
     }

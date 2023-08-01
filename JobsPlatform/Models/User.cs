@@ -1,26 +1,21 @@
-﻿using JobsPlatform.Interfaces;
-
+﻿
 namespace JobsPlatform.Models
 {
-    public  class User:SealedStuff
+    public class User
     {
         public string? Name { get; set; }
         public int? Id { get; set; }
-        public int? Identifier { get; set; }
         public string? Password { get; set; }
 
-        public User(string? name, int? identifier, int? id,string? password)
+        public User(string? name, int? id, string? password)
         {
-            Name= name;
-            Id=id;
-            Identifier= identifier;
-            Password= password;
+            Name = name;
+            Id = id;
+            Password = password;
         }
-        public User(string? name, int? identifier, int? id)
+
+        public User()
         {
-            Name= name;
-            Id=id;
-            Identifier= identifier;
         }
     }
 }

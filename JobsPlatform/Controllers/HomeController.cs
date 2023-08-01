@@ -4,94 +4,137 @@ using System.Text.RegularExpressions;
 using JobsPlatform.Models;
 using JobsPlatform.Enums;
 using JobsPlatform.BusinessLogic.CRUD;
-using System.Linq;
-using JobsPlatform.Interfaces;
+using System.Text.Json;
 
 namespace JobsPlatform.Controllers
 {
     public class HomeController : Controller
     {
-        UltimateWrapperModel model;
+        public static UltimateWrapperModel _model;
+        private static bool DatabaseCreated = false;
+
         [Route("/")]
         [Route("Home")]
         public async Task<IActionResult> Home()
         {
-            await Database.CreateDatabase();
-            model = new UltimateWrapperModel();
-            ViewData["model"] = "Welcome to JobsPlatform";
-            return View(model);
+            if (!DatabaseCreated)
+            {
+                await Database.CreateDatabase();
+                DatabaseCreated = true;
+            }
+            _model = new UltimateWrapperModel();
+            return View(_model);
         }
         [HttpPost]
-        [Route("Home/LogInModal")]
+        [Route("~/Home/LogInModal")]
         public async Task<IActionResult> LogIn(UltimateWrapperModel model)
         {
             string pattern = "^\\[A-Za-z]*$";
             Regex regex = new Regex(pattern);
             if (regex.IsMatch(model.Name))
-            {
-                return BadRequest($"Invalid name, letters only.This: {model.Name} is rejected");
+            {;
+                return RedirectToAction("Home", new { ErrorMessage = $"Invalid name, letters only.This: {model.Name} is rejected" });
             }
-            int role = (int)Role.USER;
-           foreach(IStuff stuff in Database.everything)
+            User? user1 = new User();
+            foreach (User user in Database.users)
             {
-                User user = (User)stuff;
-                if(user.Name.Equals(model.Name))
-                {
-                    return View("Forum", model);
+                if (user.Name.Equals(model.Name))
+                { user1 = user;
+                    break;
                 }
+
+            };
+            model.userID = user1.Id;
+            bool? isAdmin = Database.admins.Select(admin => admin.UserID == user1.Id).FirstOrDefault();
+            bool? isEmployeer = Database.employeers.Select(Employeer => Employeer.UserID == user1.Id).FirstOrDefault();
+            if (isAdmin.HasValue && isAdmin.Value)
+            {
+                model.Role = (int)Role.ADMIN;
+                _model = model;
+                return RedirectToAction("Admin", "Admin");
+            }
+            if (isEmployeer.HasValue &&isEmployeer.Value)
+            {
+                model.Role = (int)Role.EMPLOYEER;
+                _model = model;
+                return RedirectToAction("Employeer","Employeer");
+            }
+            if (user1.Id.HasValue && user1.Id.Value>0)
+            { 
+                model.Role = (int)Role.USER;
+                _model = model;
+                return RedirectToAction("Users", "User");
             }
 
-            return BadRequest("Account doesn't exist");
+            return RedirectToAction("Home", new { ErrorMessage = "Account doesn't exist" });
         }
         [HttpPost]
-        [Route("Home/CreateAccountModal")]
+        [Route("~/Home/CreateAccountModal")]
         public async Task<IActionResult> CreateAccount(UltimateWrapperModel model)
         {
             string pattern = "^\\[A-Za-z]*$";
             Regex regex = new Regex(pattern);
             if (regex.IsMatch(model.Name))
             {
-                return BadRequest($"Invalid name, letters only.This: {model.Name} ia rejected");
+                return RedirectToAction("Home", new { ErrorMessage = $"Invalid name, letters only.This: {model.Name} ia rejected" });
             }
             model.Password = Request.Form["password"];
             switch (model.Option)
             {
+
                 case 5:
-                    var userID = Database.everything.Where(user => user.Identifier == (int?)Role.USER);
-                    var result = userID.Count(folks => folks.Name.Equals(model.Name));
+                    var result = Database.users.Count(folk => folk.Name.Equals(model.Name));
                     if (result > 0)
                     {
-                        return BadRequest("User already exists");
+                        return RedirectToAction("Home", new { ErrorMessage = "User already exists" });
                     }
-                    Database.everything.Add(new User(model.Name, (int)Role.EMPLOYEER, userID.Count() + 1, model.Password));
-                    await UserCrud.InsertUser(model.Name, (int)Role.EMPLOYEER, model.Password);
-                    return View("Forum", model);
+                    if (Database.users.Count() < 1)
+                    {
+                        Database.users.Add(new User(model.Name, Database.users.Count() + 1, model.Password));
+                    }
+                    else { Database.users.Add(new User(model.Name, Database.users.Last().Id + 1, model.Password)); }
+                    await UserCrud.InsertUser(model.Name, model.Password);
+                    model.Role = (int)Role.USER;
+                    _model = model;
+                    return RedirectToAction("Users","User");
                 case 6:
-                    var userID1 = Database.everything.Where(user => user.Identifier == (int?)Role.USER);
-                    var result1 = userID1.Count(folks => folks.Name.Equals(model.Name));
+                    var result1 = Database.employeers.Count(folks => folks.Name.Equals(model.Name));
                     if (result1 > 0)
                     {
-                        return BadRequest("Employeer already exists");
+                        return RedirectToAction("Home", new { ErrorMessage = "Employeer already exists" });
                     }
-                    var count1 = Database.everything.Count(user => user.Identifier == (int?)Role.USER);
-                    Database.everything.Add(new Employeer(model.Name, 0, (int)Role.EMPLOYEER, userID1.Count() + 1, model.Password));
-                    await EmployeerCrud.InsertEmployeer(model.Name, (int)Role.EMPLOYEER, userID1.Count() + 1, model.Password);
-                    return View("Forum", model);
+                    await UserCrud.InsertUser(model.Name, model.Password);
+                    Database.users.Add(new User(model.Name, Database.users.Last().Id + 1, model.Password));
+                    if (Database.employeers.Count() < 1)
+                    {
+                        Database.employeers.Add(new Employeer(model.Name, Database.employeers.Count() + 1, Database.users.Last().Id, model.Password,model.Company));
+                    }
+                    else { Database.employeers.Add(new Employeer(model.Name, Database.employeers.Last().Id + 1, Database.users.Last().Id, model.Password,model.Company)); }
+                    await EmployeerCrud.InsertEmployeer(model.Name, Database.users.Last().Id, model.Password,model.Company);
+                    model.Role = (int)Role.EMPLOYEER;
+                    _model = model;
+                    return RedirectToAction("Employeer", "Employeer");
                 case 7:
-                    var userID2 = Database.everything.Where(user => user.Identifier == (int?)Role.USER);
-                    var result2 = userID2.Count(folks => folks.Name.Equals(model.Name));
+                    var result2 = Database.admins.Count(folks => folks.Name.Equals(model.Name));
                     if (result2 > 0)
                     {
-                        return BadRequest("Admin already exists");
+                        return RedirectToAction("Home", new { ErrorMessage = "Admin already exists" });
                     }
-                    Database.everything.Add(new Admin(model.Name, userID2.Count() + 1, (int)Role.EMPLOYEER, userID2.Count() + 1, model.Password));
-                    await AdminCrud.InsertAdmin(model.Name, (int)Role.ADMIN, userID2.Count() + 1, model.Password);
-                    return View("Forum", model);
+                    await UserCrud.InsertUser(model.Name, model.Password);
+                    Database.users.Add(new User(model.Name, Database.users.Last().Id + 1, model.Password));
+                    if (Database.admins.Count() < 1)
+                    {
+                        Database.admins.Add(new Admin(model.Name, Database.admins.Count() + 1, Database.users.Last().Id, model.Password));
+                    }
+                    else { Database.admins.Add(new Admin(model.Name, Database.admins.Last().Id + 1, Database.users.Last().Id, model.Password)); }
+                    await AdminCrud.InsertAdmin(model.Name, Database.users.Last().Id, model.Password);
+                    model.Role = (int)Role.ADMIN;
+                    _model = model;
+                    return RedirectToAction("AdminJson", "Admin");
                 default:
-                    return BadRequest("No option selected");
+                    return RedirectToAction("Home", new { ErrorMessage = "No option selected" });
 
             }
         }
-
     }
 }

@@ -1,0 +1,20 @@
+﻿
+<div class="table-responsive">
+    <table class="table table-bordered table-dark table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User Name</th>
+        </thead>
+        <tbody>
+            @foreach (User user in Database.users)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}
